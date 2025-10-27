@@ -14,7 +14,8 @@ export const config = {
   baseUrl: process.env.BASE_URL || process.env.API_URL || 'http://localhost:5001',
   storage: {
     uploadsPath: process.env.UPLOAD_PATH || './uploads',
-    maxFileSize: parseInt(process.env.MAX_FILE_SIZE || '500') * 1024 * 1024,
+    // CHANGED: Increased from 500MB to 5GB (5 * 1024 * 1024 * 1024 bytes)
+    maxFileSize: parseInt(process.env.MAX_FILE_SIZE || '5120') * 1024 * 1024, // 5120MB = 5GB
   },
   admin: {
     defaultEmail: process.env.DEFAULT_ADMIN_EMAIL || 'admin@cliniquejuriste.com',

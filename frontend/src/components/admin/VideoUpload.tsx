@@ -38,9 +38,9 @@ const VideoUpload: React.FC<VideoUploadProps> = ({ onSuccess, onCancel }) => {
       }
       
       // Check file size (20GB limit - updated from 500MB)
-      const maxSize = 20 * 1024 * 1024 * 1024; // 20GB
+      const maxSize = 5 * 1024 * 1024 * 1024; // 5GB
       if (file.size > maxSize) {
-        setError('Video file size must be less than 20GB');
+        setError('Video file size must be less than 5GB');
         return;
       }
       
@@ -124,12 +124,12 @@ const VideoUpload: React.FC<VideoUploadProps> = ({ onSuccess, onCancel }) => {
         uploadFormData,
         (progress) => {
           setUploadProgress(progress);
-          console.log(`📊 Upload progress for Azizkh07: ${progress}%`);
+          console.log(`📊 Upload progress : ${progress}%`);
         }
       );
       
       if (result) {
-        console.log('✅ Video uploaded successfully for Azizkh07:', {
+        console.log('✅ Video uploaded successfully', {
           id: result.id,
           title: result.title
         });
@@ -246,7 +246,7 @@ const VideoUpload: React.FC<VideoUploadProps> = ({ onSuccess, onCancel }) => {
                   Select Video File
                 </button>
                 <p className="text-sm text-gray-500 mt-2">
-                  Any video format (up to 20GB)
+                  Any video format (up to 5GB)
                 </p>
               </div>
             ) : (

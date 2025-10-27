@@ -126,10 +126,10 @@ const VideoUploadForm: React.FC<VideoUploadFormProps> = ({ onSuccess, onCancel, 
         return;
       }
 
-      // Validate file size (20GB limit)
-      const maxSize = 20 * 1024 * 1024 * 1024; // 20GB
+    
+      const maxSize = 5 * 1024 * 1024 * 1024; 
       if (file.size > maxSize) {
-        setError('Le fichier vidéo doit faire moins de 20GB');
+        setError('Le fichier vidéo doit faire moins de 5GB');
         return;
       }
 
@@ -195,9 +195,9 @@ const VideoUploadForm: React.FC<VideoUploadFormProps> = ({ onSuccess, onCancel, 
     const imageFile = files.find(file => file.type.startsWith('image/'));
 
     if (videoFile) {
-      const maxSize = 20 * 1024 * 1024 * 1024; // 20GB
+      const maxSize = 5 * 1024 * 1024 * 1024; // 5GB
       if (videoFile.size > maxSize) {
-        setError('Le fichier vidéo doit faire moins de 20GB');
+        setError('Le fichier vidéo doit faire moins de 5GB');
         return;
       }
 
@@ -252,7 +252,7 @@ const VideoUploadForm: React.FC<VideoUploadFormProps> = ({ onSuccess, onCancel, 
     const selectedSubject = subjects.find(s => s.id.toString() === formData.subject_id);
     const selectedCourseData = courses.find(c => c.id === selectedSubject?.course_id);
     
-    console.log('📤 Starting video upload for Medsaidabidi02:', {
+    console.log('📤 Starting video upload ', {
       title: formData.title,
       subject: selectedSubject?.title,
       course: selectedCourseData?.title,
@@ -621,7 +621,7 @@ const VideoUploadForm: React.FC<VideoUploadFormProps> = ({ onSuccess, onCancel, 
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">📊 Progression du téléchargement</h3>
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
-                      <span>Téléchargement en cours pour Medsaidabidi02...</span>
+                      <span>Téléchargement en cours</span>
                       <span>{uploadProgress}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">

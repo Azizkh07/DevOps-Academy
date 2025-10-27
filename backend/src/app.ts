@@ -37,8 +37,8 @@ console.log('🚀 App starting for production deployment at', new Date().toISOSt
 const app = express();
 
 // Basic middleware
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ limit: '5gb' }));
+app.use(express.urlencoded({ extended: true, limit: '5gb' }));
 
 // ---------------------------------------------------------------------------
 // CORS configuration - Fixed for production
@@ -100,12 +100,12 @@ if (process.env.NODE_ENV === 'production') {
   }));
   
   // Rate limiting for production
-  const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 200, // Increased limit for production
-    message: 'Too many requests from this IP, please try again later.'
-  });
-  app.use('/api/', limiter);
+ // const limiter = rateLimit({
+  //  windowMs: 15 * 60 * 1000, // 15 minutes
+//    max: 200, // Increased limit for production
+ //   message: 'Too many requests from this IP, please try again later.'
+//  });
+//  app.use('/api/', limiter);
   console.log('🔒 Security middleware enabled for production');
 } else {
   console.log('⚠️ Rate limiting DISABLED for development');

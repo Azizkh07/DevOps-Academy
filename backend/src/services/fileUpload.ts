@@ -70,10 +70,9 @@ export const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 500 * 1024 * 1024, // 500MB for videos
+    fileSize: 5 * 1024 * 1024 * 1024, // 5GB for videos (changed from 500MB)
   }
 });
-
 // Helper functions
 export const uploadImage = async (file: Express.Multer.File): Promise<string> => {
   const baseUrl = process.env.BASE_URL || process.env.API_URL || 'http://localhost:5001';
