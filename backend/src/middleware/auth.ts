@@ -12,6 +12,7 @@ export interface AuthRequest extends Request {
     isAdmin: boolean;
     is_admin: boolean;
     is_approved: boolean;
+    session_token?: string;
   };
 }
 
@@ -39,13 +40,31 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
     const decoded = jwt.verify(token, JWT_SECRET) as any;
     console.log(`🔍 Token decoded for user ${decoded.id} for Medsaidabidi02 at 2025-09-09 15:21:41`);
 
-    // Validate user exists and is approved
+    // Validate user exists and is approved + check session token
     try {
-      const result = await database.query('SELECT id, email, is_admin, is_approved FROM users WHERE id = ?', [decoded.id]);
+      // Try to get session columns, but handle gracefully if they don't exist
+      let result;
+      try {
+        result = await database.query(
+          'SELECT id, email, is_admin, is_approved, session_token, last_activity FROM users WHERE id = ?', 
+          [decoded.id]
+        );
+      } catch (selectError: any) {
+        // If session columns don't exist, fall back to basic query
+        if (selectError.code === 'ER_BAD_FIELD_ERROR' || selectError.message?.includes('Unknown column')) {
+          console.warn('⚠️ Session columns not found - using basic auth. Run migration: add_session_tracking.sql');
+          result = await database.query(
+            'SELECT id, email, is_admin, is_approved FROM users WHERE id = ?', 
+            [decoded.id]
+          );
+        } else {
+          throw selectError;
+        }
+      }
       
       if (result.rows.length === 0) {
         console.warn(`❌ User ${decoded.id} not found in database for Medsaidabidi02`);
-        return res.status(401).json({ error: 'User not found' });
+        return res.status(401).json({ error: 'User not found', sessionExpired: true });
       }
 
       const user = result.rows[0];
@@ -55,13 +74,51 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
         return res.status(403).json({ error: 'User not approved' });
       }
 
+      // ✅ NEW: Check if session token matches (only if column exists)
+      console.log(`🔍 Checking session for user ${decoded.id}:`);
+      console.log(`   - DB has session_token column: ${user.session_token !== undefined}`);
+      console.log(`   - DB session_token value: ${user.session_token ? user.session_token.substring(0, 12) + '...' : 'NULL'}`);
+      console.log(`   - JWT has session_token: ${decoded.session_token !== undefined}`);
+      console.log(`   - JWT session_token value: ${decoded.session_token ? decoded.session_token.substring(0, 12) + '...' : 'NULL'}`);
+      
+      if (user.session_token !== undefined && decoded.session_token !== undefined) {
+        if (user.session_token !== decoded.session_token) {
+          console.warn(`⛔⛔⛔ SESSION TOKEN MISMATCH! ⛔⛔⛔`);
+          console.warn(`   DB session token: ${user.session_token ? user.session_token.substring(0, 12) + '...' : 'NULL'}`);
+          console.warn(`   JWT session token: ${decoded.session_token ? decoded.session_token.substring(0, 12) + '...' : 'NULL'}`);
+          console.warn(`   → User logged in elsewhere - RETURNING 401`);
+          return res.status(401).json({ 
+            error: 'Session expired - logged in from another device',
+            sessionExpired: true,
+            loggedInElsewhere: true
+          });
+        } else {
+          console.log(`   ✅ Session tokens match - access granted`);
+        }
+      } else {
+        console.log(`   ⚠️ Session token checking skipped (column or JWT field missing)`);
+      }
+
+      // ✅ NEW: Update last activity timestamp (only if column exists)
+      if (user.last_activity !== undefined) {
+        try {
+          await database.query(
+            'UPDATE users SET last_activity = NOW() WHERE id = ?',
+            [decoded.id]
+          );
+        } catch (updateError) {
+          console.warn('⚠️ Could not update last_activity:', updateError);
+        }
+      }
+
       // Attach complete user info to request for downstream handlers
       req.user = {
         id: user.id,
         email: user.email,
         isAdmin: user.is_admin || false,
         is_admin: user.is_admin || false,
-        is_approved: user.is_approved
+        is_approved: user.is_approved,
+        session_token: user.session_token
       };
 
       console.log(`✅ Authentication successful for user ${user.id} (admin: ${user.is_admin}) for Medsaidabidi02`);
@@ -75,9 +132,9 @@ export const authenticateToken = async (req: AuthRequest, res: Response, next: N
   } catch (err: any) {
     console.warn('[auth] JWT error for Medsaidabidi02:', err && err.name ? err.name : err);
     if (err?.name === 'TokenExpiredError') {
-      return res.status(401).json({ error: 'Token expired. Please log in again.' });
+      return res.status(401).json({ error: 'Token expired. Please log in again.', sessionExpired: true });
     }
-    return res.status(401).json({ error: 'Invalid token' });
+    return res.status(401).json({ error: 'Invalid token', sessionExpired: true });
   }
 };
 

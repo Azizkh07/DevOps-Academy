@@ -217,6 +217,48 @@ class ApiClient {
     const contentType = response.headers.get('content-type') || '';
     const isJson = contentType.includes('application/json');
 
+    // ✅ INTERCEPTOR: Check for session expiration in ALL responses (before error handling)
+    if (isJson && (response.status === 401 || response.status === 200 || response.status === 201)) {
+      const textCopy = await response.clone().text();
+      try {
+        const dataCopy = textCopy ? JSON.parse(textCopy) : null;
+        console.log('🔍 Interceptor checking response for session expiration:', {
+          status: response.status,
+          hasSessionExpired: dataCopy?.sessionExpired,
+          hasLoggedInElsewhere: dataCopy?.loggedInElsewhere
+        });
+        
+        if (dataCopy?.sessionExpired || dataCopy?.loggedInElsewhere) {
+          console.warn('⛔⛔⛔ SESSION EXPIRED DETECTED! ⛔⛔⛔');
+          console.warn('Response data:', dataCopy);
+          
+          // Clear auth data
+          this.clearAuthData();
+          
+          // Store message and redirect
+          if (typeof window !== 'undefined') {
+            const message = dataCopy?.loggedInElsewhere 
+              ? 'Vous avez été déconnecté car vous vous êtes connecté sur un autre appareil.'
+              : 'Votre session a expiré. Veuillez vous reconnecter.';
+            
+            console.warn('📝 Storing message in sessionStorage:', message);
+            sessionStorage.setItem('loginMessage', message);
+            
+            console.warn('🔄 Redirecting to /login in 100ms...');
+            // Force redirect
+            setTimeout(() => {
+              window.location.href = '/login';
+            }, 100);
+          }
+          
+          throw new Error('Session expired');
+        }
+      } catch (parseErr) {
+        // If it's not JSON or parsing failed, continue normally
+        console.log('⚠️ Interceptor parse error (ignoring):', parseErr);
+      }
+    }
+
     // Handle auth errors
     if (response.status === 401 || response.status === 403) {
       const text = await response.text();
@@ -230,6 +272,28 @@ class ApiClient {
       
       if (response.status === 401) {
         console.warn('🔐 Unauthorized response:', serverMessage);
+        
+        // ✅ NEW: Check if session expired (logged in elsewhere)
+        if (parsed?.sessionExpired || parsed?.loggedInElsewhere) {
+          console.warn('⛔ Session expired - user logged in elsewhere');
+          
+          // Clear local auth data
+          this.clearAuthData();
+          
+          // Redirect to login with message
+          if (typeof window !== 'undefined') {
+            const message = parsed?.loggedInElsewhere 
+              ? 'Vous avez été déconnecté car vous vous êtes connecté sur un autre appareil.'
+              : 'Votre session a expiré. Veuillez vous reconnecter.';
+            
+            // Store message for login page
+            sessionStorage.setItem('loginMessage', message);
+            
+            // Redirect to login
+            window.location.href = '/login';
+          }
+        }
+        
         throw new Error(serverMessage || 'Authentication required. Please log in again.');
       } else {
         console.warn('⛔ Forbidden response:', serverMessage);
@@ -256,6 +320,8 @@ class ApiClient {
       try {
         const rawData = await response.json();
         console.log('📊 Raw JSON response:', typeof rawData, Array.isArray(rawData) ? rawData.length + ' items' : 'object');
+        
+        // Session check already done by interceptor above
         
         const extractedData = this.extractData<T>(rawData);
         console.log('✅ Extracted data:', typeof extractedData, Array.isArray(extractedData) ? extractedData.length + ' items' : 'object');

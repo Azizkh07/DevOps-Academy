@@ -18,6 +18,7 @@ const LoginPage: React.FC = () => {
   const [credentials, setCredentials] = useState<LoginCredentials>({ email: '', password: '' });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [sessionMessage, setSessionMessage] = useState<string | null>(null); // ✅ NEW
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -26,6 +27,13 @@ const LoginPage: React.FC = () => {
   const redirectPath = searchParams.get('redirect') || '/';
 
   useEffect(() => {
+    // ✅ NEW: Check for session message
+    const message = sessionStorage.getItem('loginMessage');
+    if (message) {
+      setSessionMessage(message);
+      sessionStorage.removeItem('loginMessage');
+    }
+    
     // Trigger animations
     setTimeout(() => setIsVisible(true), 300);
 
@@ -73,6 +81,7 @@ const LoginPage: React.FC = () => {
   };
 
   const displayError = error || authError;
+  const displayMessage = sessionMessage; // ✅ NEW
 
   return (
     <div className="login-page-container">
@@ -119,6 +128,21 @@ const LoginPage: React.FC = () => {
 
         <div className="login-content">
           <div className="container">
+            {/* ✅ NEW: Session message */}
+            {displayMessage && (
+              <div className="alert alert-warning mb-4" style={{ 
+                background: '#fff3cd', 
+                border: '1px solid #ffc107', 
+                borderRadius: '8px', 
+                padding: '12px 20px',
+                marginBottom: '20px',
+                textAlign: 'center',
+                color: '#856404'
+              }}>
+                <strong>⚠️ {displayMessage}</strong>
+              </div>
+            )}
+            
             {/* Centered Form Layout */}
             <div className="login-centered-layout">
               <div className={`login-form-container ${isVisible ? 'animate-in' : ''}`}>
@@ -204,13 +228,13 @@ const LoginPage: React.FC = () => {
                         <span className="divider-text">{t('auth.login.new_here', 'New here?')}</span>
                       </div>
 
-                      <p className="signup-text">
+                      <div className="signup-text">
                         {t('auth.login.no_account', "Don't have an account?")}{' '}
                         <Link to="/contact" className="signup-link">
                           <span>{t('auth.login.contact_us', 'Contact us')}</span>
-                          <div className="link-underline" />
+                          <span className="link-underline" />
                         </Link>
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>

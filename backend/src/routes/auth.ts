@@ -1,6 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import database from '../config/database';
 
 const router = express.Router();
@@ -96,14 +97,43 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    // Generate JWT token using configurable expiry
+    // ✅ NEW: Generate unique session token for single device enforcement
+    const sessionToken = crypto.randomUUID();
+    console.log(`🔐 Generated NEW session token for user ${user.id}: ${sessionToken.substring(0, 12)}...`);
+    
+    // ✅ NEW: Update user's session token and last activity (only if columns exist)
+    try {
+      await database.query(
+        'UPDATE users SET session_token = ?, last_activity = NOW() WHERE id = ?',
+        [sessionToken, user.id]
+      );
+      console.log(`✅ Session token saved to database for user ${user.id}`);
+      console.log(`   Token: ${sessionToken.substring(0, 12)}...`);
+    } catch (sessionError: any) {
+      // If session columns don't exist yet (before migration), continue without session
+      if (sessionError.code === 'ER_BAD_FIELD_ERROR' || sessionError.message?.includes('Unknown column')) {
+        console.warn('⚠️ Session columns not found - continuing without session tracking. Run migration: add_session_tracking.sql');
+      } else {
+        throw sessionError; // Re-throw if it's a different error
+      }
+    }
+
+    // Generate JWT token with session token embedded
     const token = jwt.sign(
-      {  id: user.id,
-         email: user.email,
-        isAdmin: user.is_admin},
+      {  
+        id: user.id,
+        email: user.email,
+        isAdmin: user.is_admin,
+        session_token: sessionToken  // ✅ NEW: Include session token in JWT
+      },
       process.env.JWT_SECRET,
       { expiresIn: '24h'}
     );
+    
+    console.log(`🎫 JWT created with session_token embedded`);
+    console.log(`   User ID: ${user.id}`);
+    console.log(`   Email: ${user.email}`);
+    console.log(`   Session Token: ${sessionToken.substring(0, 12)}...`);
 
     res.json({
       success: true,
@@ -365,15 +395,49 @@ router.get('/debug-users', async (req, res) => {
   }
 });
 
-// Logout endpoint (optional - mainly for client-side token cleanup)
-router.post('/logout', (req, res) => {
-  console.log('👋 Logout request received for Medsaidabidi02 at 2025-09-09 15:17:20');
-  // With JWT, logout is typically handled client-side by removing the token
-  // You could implement a token blacklist here if needed
-  res.json({
-    success: true,
-    message: 'Déconnexion réussie'
-  });
+// Logout endpoint - invalidate session
+router.post('/logout', async (req, res) => {
+  try {
+    console.log('👋 Logout request received for Medsaidabidi02 at 2025-09-09 15:17:20');
+    
+    // Extract user from token
+    const authHeader = req.headers['authorization'];
+    if (authHeader) {
+      let token = authHeader;
+      if (authHeader.startsWith('Bearer ')) {
+        token = authHeader.substring(7);
+      }
+
+      try {
+        const decoded = jwt.verify(token, JWT_SECRET) as any;
+        
+        // ✅ NEW: Clear session token in database (only if column exists)
+        try {
+          await database.query(
+            'UPDATE users SET session_token = NULL WHERE id = ?',
+            [decoded.id]
+          );
+          console.log('✅ Session cleared for user:', decoded.id);
+        } catch (sessionError: any) {
+          if (sessionError.code === 'ER_BAD_FIELD_ERROR' || sessionError.message?.includes('Unknown column')) {
+            console.warn('⚠️ Session column not found - continuing without session clear');
+          } else {
+            throw sessionError;
+          }
+        }
+      } catch (error) {
+        console.warn('⚠️ Could not decode token for logout:', error);
+      }
+    }
+    
+    res.json({
+      success: true,
+      message: 'Déconnexion réussie'
+    });
+  } catch (error) {
+    console.error('❌ Logout error:', error);
+    res.status(500).json({ success: false, message: 'Erreur lors de la déconnexion' });
+  }
 });
 
 console.log('🔐 Auth routes module loaded for Medsaidabidi02 at 2025-09-09 15:17:20');

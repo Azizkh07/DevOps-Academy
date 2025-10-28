@@ -274,26 +274,51 @@ const VideoUploadForm: React.FC<VideoUploadFormProps> = ({ onSuccess, onCancel, 
         uploadFormData.append('thumbnail', thumbnailFile);
       }
 
-      console.log('📤 Uploading to /api/videos with FormData...');
+      console.log('📤 Uploading to /api/videos with XMLHttpRequest for progress tracking...');
 
-      // ✅ FIXED: Upload with proper response handling for MySQL5
-      const response = await fetch('/api/videos', {
-        method: 'POST',
-        body: uploadFormData,
-        headers: {
-          // Don't set Content-Type - let browser set it with boundary for FormData
-          'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
-        }
+      // ✅ Use XMLHttpRequest to track upload progress
+      const result = await new Promise<any>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        
+        // Track upload progress
+        xhr.upload.addEventListener('progress', (e) => {
+          if (e.lengthComputable) {
+            const percentComplete = Math.round((e.loaded / e.total) * 100);
+            setUploadProgress(percentComplete);
+            console.log(`📊 Upload progress: ${percentComplete}% (${(e.loaded / (1024 * 1024)).toFixed(2)}MB / ${(e.total / (1024 * 1024)).toFixed(2)}MB)`);
+          }
+        });
+        
+        // Handle completion
+        xhr.addEventListener('load', () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              const response = JSON.parse(xhr.responseText);
+              console.log('✅ Raw upload response:', response);
+              resolve(response);
+            } catch (e) {
+              reject(new Error('Invalid response format'));
+            }
+          } else {
+            console.error('❌ Upload response error:', xhr.responseText);
+            reject(new Error(`Upload failed: ${xhr.status} ${xhr.statusText}`));
+          }
+        });
+        
+        // Handle errors
+        xhr.addEventListener('error', () => {
+          reject(new Error('Network error during upload'));
+        });
+        
+        xhr.addEventListener('abort', () => {
+          reject(new Error('Upload cancelled'));
+        });
+        
+        // Send request
+        xhr.open('POST', '/api/videos');
+        xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem('authToken') || ''}`);
+        xhr.send(uploadFormData);
       });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ Upload response error for Medsaidabidi02:', errorText);
-        throw new Error(`Upload failed: ${response.status} ${errorText}`);
-      }
-
-      const result = await response.json();
-      console.log('✅ Raw upload response for Medsaidabidi02:', result);
 
       // ✅ FIXED: Handle different response structures from MySQL5
       let actualVideo;
@@ -306,7 +331,7 @@ const VideoUploadForm: React.FC<VideoUploadFormProps> = ({ onSuccess, onCancel, 
         actualVideo = result;
         console.log('✅ Using direct video object:', actualVideo);
       } else {
-        console.error('❌ Unexpected response structure for Medsaidabidi02:', result);
+        console.error('❌ Unexpected response structure:', result);
         throw new Error('Unexpected response structure from server');
       }
 
