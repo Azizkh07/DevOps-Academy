@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  const HERO_IMAGE_PATH = '/assets/graduate.png';
+  const HERO_IMAGE_PATH = '/assets/devopslogocopy.png';
 
 
   useEffect(() => {
@@ -156,7 +156,7 @@ const HomePage: React.FC = () => {
                 </h1>
 
                 <p className="hero-description">
-                  {t('hero.description', "Clinique des juristes - Toutes les disciplines juridiques. Formations expertes modernes, pour réussir.")}
+                  {t('hero.description', "DevOps Academy - Master CI/CD, Cloud Computing, and modern DevOps practices. Expert-led training for your success.")}
                 </p>
 
                 <div className="hero-actions">
@@ -176,26 +176,17 @@ const HomePage: React.FC = () => {
               {/* Right visual */}
               <div className={`hero-visual ${isVisible ? 'animate-in' : ''}`}>
                 <div className="visual-container">
-                  <div className="graduate-circle">
-                    <div className="graduate-image">
-                      <div className="graduate-glow" />
-                      <img
-                        src={buildImgSrc(HERO_IMAGE_PATH, '/api/placeholder/400/400')}
-                        alt={t('hero.image_alt', 'Graduate')}
-                        className="graduate-custom-image"
-                        onError={(e: any) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src = DATA_URI_PLACEHOLDER;
-                        }}
-                      />
-                      <div className="floating-elements">
-                        <div className="float-element element-1">📚</div>
-                        <div className="float-element element-2">⚖️</div>
-                        <div className="float-element element-3">🎓</div>
-                        <div className="float-element element-4">📖</div>
-                        <div className="float-element element-5">✨</div>
-                      </div>
-                    </div>
+                  <div className="hero-image-wrapper">
+                    <div className="hero-image-glow" />
+                    <img
+                      src={buildImgSrc(HERO_IMAGE_PATH, '/api/placeholder/600/400')}
+                      alt={t('hero.image_alt', 'DevOps Academy')}
+                      className="hero-main-image"
+                      onError={(e: any) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = DATA_URI_PLACEHOLDER;
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -209,7 +200,7 @@ const HomePage: React.FC = () => {
       <section className="why-choose-section">
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">{t('why.title', 'Pourquoi choisir Clinique des juristes')}</h2>
+            <h2 className="section-title">{t('why.title', 'Why Choose DevOps Academy')}</h2>
           </div>
 
           <div className="features-grid">

@@ -1,7 +1,7 @@
 {
-  "name": "clinique-juristes-backend",
+  "name": "devops-academy-backend",
   "version": "1.0.0",
-  "description": "Backend API for Clinique des Juristes",
+  "description": "Backend API for DevOps Academy - A Modern DevOps Learning Platform",
   "main": "dist/server.js",
   "proxy": "http://localhost:5001",
 

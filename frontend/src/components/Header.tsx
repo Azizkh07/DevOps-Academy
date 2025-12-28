@@ -57,8 +57,8 @@ const Header: React.FC = () => {
     <header className={`modern-header ${isScrolled ? 'scrolled' : ''} ${isRtl ? 'rtl' : ''}`} dir={isRtl ? 'rtl' : 'ltr'}>
       <div className="header-content">
         <Link to="/" className="logo-container">
-          <img src="/images/logoo.png" alt={t('logo_alt', 'Clinique Juriste Logo')} className="logo-image" />
-          <span className="logo-text">{t('site_title', 'Clinique des Juristes')}</span>
+          <img src="/assets/devopslogo.png" alt={t('logo_alt', 'DevOps Academy Logo')} className="logo-image" />
+          <span className="logo-text">{t('site_title', 'DevOps Academy')}</span>
         </Link>
 
         <nav className="nav-menu" aria-label={t('nav.main', 'Main navigation')}>
@@ -79,7 +79,7 @@ const Header: React.FC = () => {
               </button>
               <div className="dropdown-menu" role="menu">
                 {user?.is_admin && <Link to="/admin" className="dropdown-item">{t('header.admin', 'Administration')}</Link>}
-                <hr style={{ margin: '8px 0', border: '1px solid rgba(34, 197, 94, 0.1)' }} />
+                <hr style={{ margin: '8px 0', border: '1px solid rgba(0, 102, 204, 0.1)' }} />
                 <button 
                   onClick={handleLogout} 
                   className="dropdown-item"
@@ -116,7 +116,7 @@ const Header: React.FC = () => {
         <Link to="/contact" className="mobile-nav-link" onClick={() => setIsMenuOpen(false)}>{t('nav.contact', 'Contact')}</Link>
 
         {/* Add Language Switcher to mobile menu */}
-        <div style={{ padding: '10px 20px', borderTop: '1px solid rgba(34, 197, 94, 0.1)', borderBottom: '1px solid rgba(34, 197, 94, 0.1)', margin: '10px 0' }}>
+        <div style={{ padding: '10px 20px', borderTop: '1px solid rgba(0, 102, 204, 0.1)', borderBottom: '1px solid rgba(0, 102, 204, 0.1)', margin: '10px 0' }}>
           <LanguageSwitcher />
         </div>
 

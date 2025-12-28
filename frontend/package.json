@@ -1,7 +1,7 @@
 {
-  "name": "legal-education-frontend-mysql5",
+  "name": "devops-academy-frontend",
   "version": "1.0.0",
-  "description": "Frontend for Legal Education Platform - MySQL5 Version",
+  "description": "Frontend for DevOps Academy - A Modern DevOps Learning Platform",
   "private": true,
   "proxy": "http://localhost:5001",
   "dependencies": {
@@ -37,7 +37,7 @@
     "scripts": {
       "start": "react-scripts start",
       "build": "react-scripts build", 
-      "build:prod": "cross-env REACT_APP_API_URL=https://cliniquedesjuristes.com react-scripts build",
+      "build:prod": "cross-env REACT_APP_API_URL=https://devopsacademy.com react-scripts build",
       "test": "react-scripts test",
       "eject": "react-scripts eject"
     }

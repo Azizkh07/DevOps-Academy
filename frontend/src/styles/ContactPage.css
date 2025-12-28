@@ -13,11 +13,11 @@
 
 @keyframes pulse-glow {
   0%, 100% { 
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 20px rgba(0, 102, 204, 0.3);
     transform: scale(1);
   }
   50% { 
-    box-shadow: 0 0 40px rgba(34, 197, 94, 0.6);
+    box-shadow: 0 0 40px rgba(0, 102, 204, 0.6);
     transform: scale(1.05);
   }
 }
@@ -117,8 +117,8 @@
 }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.3); }
-  50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.8), 0 0 30px rgba(34, 197, 94, 0.4); }
+  0%, 100% { box-shadow: 0 0 5px rgba(0, 102, 204, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(0, 102, 204, 0.8), 0 0 30px rgba(0, 102, 204, 0.4); }
 }
 
 /* Contact Page Specific Styles */
@@ -145,8 +145,8 @@
   width: 100%;
   height: 100%;
   background-image: 
-    linear-gradient(rgba(34, 197, 94, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(34, 197, 94, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(0, 102, 204, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 102, 204, 0.05) 1px, transparent 1px);
   background-size: 40px 40px;
   animation: gradient-shift 20s ease infinite;
   opacity: 0.6;
@@ -169,10 +169,10 @@
   animation: particle-float linear infinite;
 }
 
-.contact-particle-0 { background: #22c55e; left: 20%; animation-delay: 0s; animation-duration: 7s; }
-.contact-particle-1 { background: #16a34a; left: 40%; animation-delay: 1.5s; animation-duration: 8s; }
+.contact-particle-0 { background: #0066CC; left: 20%; animation-delay: 0s; animation-duration: 7s; }
+.contact-particle-1 { background: #00D9A3; left: 40%; animation-delay: 1.5s; animation-duration: 8s; }
 .contact-particle-2 { background: #15803d; left: 60%; animation-delay: 3s; animation-duration: 6s; }
-.contact-particle-3 { background: #22c55e; left: 80%; animation-delay: 4.5s; animation-duration: 9s; }
+.contact-particle-3 { background: #0066CC; left: 80%; animation-delay: 4.5s; animation-duration: 9s; }
 
 /* Contact Hero Content */
 .contact-hero-content {
@@ -189,7 +189,7 @@
   margin-bottom: 24px;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   animation: bounce-in 1.2s ease-out;
-  background: linear-gradient(135deg, #22c55e, #16a34a);
+  background: linear-gradient(135deg, #0066CC, #00D9A3);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -239,7 +239,7 @@
 .contact-info-title {
   font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #22c55e, #3b82f6);
+  background: linear-gradient(135deg, #0066CC, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -259,7 +259,7 @@
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(0, 102, 204, 0.1);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -285,13 +285,13 @@
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
+  background: rgba(0, 102, 204, 0.1);
+  color: #0066CC;
   transition: all 0.3s ease;
 }
 
 .contact-method-card:hover .contact-method-icon {
-  background: #22c55e;
+  background: #0066CC;
   color: white;
   transform: scale(1.1);
 }
@@ -305,7 +305,7 @@
 }
 
 .contact-method-card:hover h3 {
-  background: linear-gradient(135deg, #22c55e, #3b82f6);
+  background: linear-gradient(135deg, #0066CC, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -330,7 +330,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, transparent, rgba(34, 197, 94, 0.03), transparent);
+  background: linear-gradient(45deg, transparent, rgba(0, 102, 204, 0.03), transparent);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -351,7 +351,7 @@
   border-radius: 20px;
   padding: 40px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(0, 102, 204, 0.1);
   position: relative;
   overflow: hidden;
 }
@@ -359,7 +359,7 @@
 .contact-form-title {
   font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #22c55e, #3b82f6);
+  background: linear-gradient(135deg, #0066CC, #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -437,14 +437,14 @@
 .form-select:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: #22c55e;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  border-color: #0066CC;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
   transform: translateY(-2px);
 }
 
 .form-input:focus + .input-icon,
 .form-select:focus + .input-icon {
-  color: #22c55e;
+  color: #0066CC;
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -457,7 +457,7 @@
 
 /* Submit Button */
 .submit-button {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
+  background: linear-gradient(135deg, #0066CC, #00D9A3);
   color: #ffffff;
   padding: 18px 32px;
   border: none;
@@ -466,7 +466,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 102, 204, 0.3);
   width: 100%;
   min-height: 56px;
   text-align: center;
@@ -475,8 +475,8 @@
 
 .submit-button:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4);
-  background: linear-gradient(135deg, #16a34a, #15803d);
+  box-shadow: 0 8px 30px rgba(0, 102, 204, 0.4);
+  background: linear-gradient(135deg, #00D9A3, #15803d);
 }
 
 .submit-button:disabled {
@@ -487,8 +487,8 @@
 
 .submit-button:disabled:hover {
   transform: none;
-  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.3);
-  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 4px 20px rgba(0, 102, 204, 0.3);
+  background: linear-gradient(135deg, #0066CC, #00D9A3);
 }
 
 /* Loading Animation */
@@ -534,7 +534,7 @@
 /* Success Page */
 .success-container {
   min-height: calc(100vh - 200px);
-  background: linear-gradient(135deg, #22c55e 0%, #16a34a 30%, #15803d 100%);
+  background: linear-gradient(135deg, #0066CC 0%, #00D9A3 30%, #15803d 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -749,22 +749,22 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #22c55e, #16a34a);
+  background: linear-gradient(180deg, #0066CC, #00D9A3);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #16a34a, #15803d);
+  background: linear-gradient(180deg, #00D9A3, #15803d);
 }
 
 /* Selection Styles */
 ::selection {
-  background: rgba(34, 197, 94, 0.2);
+  background: rgba(0, 102, 204, 0.2);
   color: #1f2937;
 }
 
 ::-moz-selection {
-  background: rgba(34, 197, 94, 0.2);
+  background: rgba(0, 102, 204, 0.2);
   color: #1f2937;
 }
 
@@ -774,7 +774,7 @@
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
-  outline: 2px solid #22c55e;
+  outline: 2px solid #0066CC;
   outline-offset: 2px;
 }
 
@@ -901,7 +901,7 @@
     backdrop-filter: blur(10px) !important;
     border-radius: 16px !important;
     padding: 24px !important;
-    border: 1px solid rgba(34, 197, 94, 0.1) !important;
+    border: 1px solid rgba(0, 102, 204, 0.1) !important;
   }
 
   .mobile-form-group {
@@ -923,7 +923,7 @@
     left: 12px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
-    color: rgba(34, 197, 94, 0.6) !important;
+    color: rgba(0, 102, 204, 0.6) !important;
     z-index: 2;
   }
 
@@ -933,7 +933,7 @@
     width: 100% !important;
     padding: 12px 12px 12px 45px !important;
     border-radius: 8px !important;
-    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    border: 1px solid rgba(0, 102, 204, 0.2) !important;
     background: rgba(255, 255, 255, 0.05) !important;
     color: white !important;
     font-size: 16px !important; /* Prevents zoom on iOS */
@@ -951,15 +951,15 @@
   .mobile-form-select:focus,
   .mobile-form-textarea:focus {
     outline: none !important;
-    border-color: rgba(34, 197, 94, 0.5) !important;
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1) !important;
+    border-color: rgba(0, 102, 204, 0.5) !important;
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1) !important;
   }
 
   .mobile-submit-button {
     width: 100% !important;
     padding: 16px !important;
     border-radius: 12px !important;
-    background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+    background: linear-gradient(135deg, #0066CC, #00D9A3) !important;
     color: white !important;
     border: none !important;
     font-size: 1.1rem !important;
@@ -970,9 +970,9 @@
   }
 
   .mobile-submit-button:hover:not(:disabled) {
-    background: linear-gradient(135deg, #16a34a, #15803d) !important;
+    background: linear-gradient(135deg, #00D9A3, #15803d) !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3) !important;
   }
 
   .mobile-submit-button:disabled {

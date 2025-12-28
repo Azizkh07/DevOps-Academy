@@ -14,7 +14,7 @@ const generateEmailFromName = (name: string) => {
     .replace(/\s+/g, '.')
     .replace(/[^a-z0-9.]/g, '');
   const suffix = Math.floor(100 + Math.random() * 900);
-  return `${base}.${suffix}@cliniquejuristes.com`;
+  return `${base}.${suffix}@devopsacademy.com`;
 };
 
 const generatePassword = () => {

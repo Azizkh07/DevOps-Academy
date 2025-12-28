@@ -324,7 +324,7 @@ const CoursesPage: React.FC = () => {
                       />
                     ) : (
                       <div className="course-image" style={{
-                        background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                        background: 'linear-gradient(135deg, #0066CC, #00D9A3)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',

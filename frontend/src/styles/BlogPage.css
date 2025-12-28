@@ -8,11 +8,11 @@
   
   @keyframes pulse-glow {
     0%, 100% { 
-      box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+      box-shadow: 0 0 20px rgba(0, 102, 204, 0.3);
       transform: scale(1);
     }
     50% { 
-      box-shadow: 0 0 40px rgba(34, 197, 94, 0.6);
+      box-shadow: 0 0 40px rgba(0, 102, 204, 0.6);
       transform: scale(1.05);
     }
   }
@@ -96,8 +96,8 @@
     width: 100%;
     height: 100%;
     background-image: 
-      linear-gradient(rgba(34, 197, 94, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(34, 197, 94, 0.05) 1px, transparent 1px);
+      linear-gradient(rgba(0, 102, 204, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 102, 204, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
     animation: gradient-shift 20s ease infinite;
     opacity: 0.6;
@@ -115,7 +115,7 @@
     position: absolute;
     width: 3px;
     height: 3px;
-    background: #22c55e;
+    background: #0066CC;
     border-radius: 50%;
     animation: particle-float linear infinite;
   }
@@ -141,7 +141,7 @@
     gap: 8px;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(34, 197, 94, 0.2);
+    border: 1px solid rgba(0, 102, 204, 0.2);
     border-radius: 50px;
     padding: 8px 20px;
     margin-bottom: 30px;
@@ -157,7 +157,7 @@
   .blog-badge-text {
     font-size: 14px;
     font-weight: 600;
-    color: #16a34a;
+    color: #00D9A3;
   }
   
   .blog-badge-glow {
@@ -166,7 +166,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.3), transparent);
+    background: linear-gradient(90deg, transparent, rgba(0, 102, 204, 0.3), transparent);
     animation: shimmer 2s ease-in-out infinite;
   }
   
@@ -179,7 +179,7 @@
   }
   
   .blog-title-highlight {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
+    background: linear-gradient(135deg, #0066CC, #00D9A3);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -318,7 +318,7 @@
   }
   
   .blog-title-link:hover {
-    color: #22c55e;
+    color: #0066CC;
   }
   
   .blog-date {
@@ -348,7 +348,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, #22c55e, #16a34a);
+    background: linear-gradient(135deg, #0066CC, #00D9A3);
     color: white;
     padding: 12px 24px;
     border-radius: 50px;
@@ -361,7 +361,7 @@
   
   .blog-read-more:hover {
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4);
   }
   
   .blog-read-more::before {
@@ -391,7 +391,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, transparent, rgba(34, 197, 94, 0.05), transparent);
+    background: linear-gradient(45deg, transparent, rgba(0, 102, 204, 0.05), transparent);
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
@@ -468,21 +468,21 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #22c55e, #16a34a);
+    background: linear-gradient(180deg, #0066CC, #00D9A3);
     border-radius: 4px;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #16a34a, #15803d);
+    background: linear-gradient(180deg, #00D9A3, #15803d);
   }
   
   /* Selection Styles */
   ::selection {
-    background: rgba(34, 197, 94, 0.2);
+    background: rgba(0, 102, 204, 0.2);
     color: #1f2937;
   }
   
   ::-moz-selection {
-    background: rgba(34, 197, 94, 0.2);
+    background: rgba(0, 102, 204, 0.2);
     color: #1f2937;
   }

@@ -1,6 +1,6 @@
 {
-  "site_title": "Clinique des Juristes",
-  "logo_alt": "Logo Clinique Juriste",
+  "site_title": "DevOps Academy",
+  "logo_alt": "Logo DevOps Academy",
   "language_switcher": "Langue",
   "nav": {
     "home": "Accueil",
@@ -20,7 +20,7 @@
     "login": {
       "welcome_line1": "Bienvenue",
       "welcome_line2": "de retour",
-      "subtitle": "Connectez-vous à votre compte pour accéder à vos cours et ressources juridiques",
+      "subtitle": "Connectez-vous à votre compte pour accéder à vos cours DevOps et ressources",
       "email_label": "Adresse Email",
       "email_placeholder": "votre.email@exemple.com",
       "password_label": "Mot de passe",
@@ -43,34 +43,34 @@
   },
   "hero": {
     "section_label": "Héros",
-    "badge_icon": "⚖️",
-    "badge_text": "Éducation Juridique Premium",
-    "title_part1": "L'éducation",
-    "title_highlight": "Juridique",
-    "title_part3": "Moderne,",
-    "title_accent": "À Portée De Main",
-    "title_aria": "L'éducation juridique moderne à portée de main",
-    "description": "Clinique des juristes - Toutes les disciplines juridiques. Formations expertes modernes, pour réussir.",
-    "image_alt": "Diplômé"
+    "badge_icon": "🚀",
+    "badge_text": "Éducation DevOps Premium",
+    "title_part1": "Maîtrisez",
+    "title_highlight": "DevOps",
+    "title_part3": "Et Transformez",
+    "title_accent": "Votre Carrière",
+    "title_aria": "Maîtrisez DevOps et transformez votre carrière",
+    "description": "DevOps Academy - Apprenez CI/CD, Cloud Computing, Infrastructure as Code et les pratiques DevOps modernes auprès d'experts de l'industrie.",
+    "image_alt": "Professionnel DevOps"
   },
   "buttons": {
     "cta_more": "En savoir plus",
     "contact_us": "Nous contacter"
   },
   "why": {
-    "title": "Pourquoi choisir Clinique des juristes"
+    "title": "Pourquoi choisir DevOps Academy"
   },
   "features": {
-    "title1": "Contenu structuré et clair",
-    "desc1": "Des modules pédagogiques organisés par des experts du droit",
+    "title1": "Apprentissage pratique",
+    "desc1": "Projets réels et laboratoires organisés par des experts DevOps",
     "title2": "Apprenez à votre rythme",
     "desc2": "Accès illimité, cours disponibles 24h/24, 7j/7",
-    "title3": "Objectif concours & réussite",
-    "desc3": "Préparation intensive pour les épreuves écrites CRFPA et orales"
+    "title3": "Axé sur la carrière et aligné sur l'industrie",
+    "desc3": "Formation pratique pour les certifications DevOps et l'employabilité"
   },
   "courses": {
     "title": "Nos cours",
-    "subtitle": "Améliorer significativement vos formations les plus efficaces, mises à jour par nos enseignants.",
+    "subtitle": "Améliorez significativement vos compétences DevOps avec nos formations à jour dispensées par nos enseignants.",
     "page_title": "Nos Cours",
     "loading": "Chargement des cours...",
     "error_title": "Erreur de chargement",
@@ -99,7 +99,7 @@
   },
   "articles": {
     "title": "Derniers articles",
-    "subtitle": "Découvrez nos conseils, actualités juridiques et ressources pédagogiques.",
+    "subtitle": "Découvrez nos conseils DevOps, actualités de l'industrie et ressources pédagogiques.",
     "empty_title": "Nos articles arrivent bientôt!",
     "untitled": "Article",
     "excerpt_placeholder": "L'extrait de l'article apparaîtra ici.",
@@ -107,13 +107,13 @@
   },
   "blog": {
     "hero_section": "Blog",
-    "hero_badge": "Actualités & Conseils Juridiques",
+    "hero_badge": "Actualités & Meilleures Pratiques DevOps",
     "hero_title_prefix": "Derniers",
     "hero_title_highlight": "Articles",
-    "hero_description": "Découvrez nos conseils d'experts, actualités juridiques et ressources pédagogiques pour rester informé des dernières évolutions du droit.",
+    "hero_description": "Découvrez nos conseils d'experts, actualités DevOps et ressources pédagogiques pour rester informé des dernières évolutions de l'industrie.",
     "read_more": "Lire la suite",
     "unavailable": "Article indisponible",
-    "empty_text": "Nos articles arrivent bientôt! Revenez prochainement pour découvrir nos contenus juridiques.",
+    "empty_text": "Nos articles arrivent bientôt! Revenez prochainement pour découvrir nos contenus DevOps.",
     "error_loading": "Échec du chargement des articles. Veuillez réessayer plus tard.",
     "detail_invalid_url": "URL d'article invalide",
     "error_unauthorized": "Non autorisé (401) — l'API des articles nécessite une authentification. Vérifiez le token/la session.",
@@ -123,11 +123,11 @@
     "detail_unavailable_message": "Article non disponible",
     "back_to_list": "Retour aux articles",
     "author_alt": "Auteur",
-    "author_default": "Clinique des Juristes"
+    "author_default": "DevOps Academy"
   },
   "contact": {
     "hero_title": "Contactez-nous",
-    "hero_description": "Notre équipe est là pour vous accompagner dans votre parcours d'apprentissage juridique. N'hésitez pas à nous poser vos questions.",
+    "hero_description": "Notre équipe est là pour vous accompagner dans votre parcours d'apprentissage DevOps. N'hésitez pas à nous poser vos questions.",
     "info_title": "Nos coordonnées",
     "method_email": {
       "title": "Email",

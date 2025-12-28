@@ -232,11 +232,11 @@ async function setupDatabase() {
 
     // Insert users
     const users = [
-      [1, 'Administrateur', 'admin@cliniquejuriste.com', '$2b$10$uKCfx3P642zXx7DKwbajk.qgfQc.0h1i537XbMGBD14QNZ84.Ho.m', true, true, null, '2025-08-15 17:28:49', '2025-08-16 20:33:01'],
+      [1, 'Administrateur', 'admin@devopsacademy.com', '$2b$10$uKCfx3P642zXx7DKwbajk.qgfQc.0h1i537XbMGBD14QNZ84.Ho.m', true, true, null, '2025-08-15 17:28:49', '2025-08-16 20:33:01'],
       [8, 'salem', 'salem@gmail.com', '$2b$10$oyRzKFn0FiskzkIwHOM9.OrtzXcyJgCYefnkxPQjXUWKCJVKfx1UO', true, false, null, '2025-08-21 17:33:52', '2025-08-25 02:08:51'],
       [13, 'Ahmed', 'ahmed@gmail.com', '$2b$10$jX51kUHbq2dvEawW1gywv..yla1.yzDJ.yXdj9o0IdmKUo81S.D7q', true, false, null, '2025-08-25 21:20:40', '2025-08-25 21:21:20'],
-      [14, 'SAMItrt', 'sami@cliniquejuriste.com', '$2b$10$1iYXOSoTuBmdG7NLN7BlCeGnTe2ix9kRd2dKGZA3vba/eJRtK5XfS', true, false, null, '2025-08-31 12:54:10', '2025-08-31 18:33:28'],
-      [15, 'rami', 'rami@cliniquejuriste.com', '$2b$10$wFL/VmhTDD6WKVrlF.V8R.tVkbUqQaTUmZvxaRPR9DsTGVffJXqfS', true, false, null, '2025-09-06 20:32:19', '2025-09-06 21:39:48']
+      [14, 'SAMItrt', 'sami@devopsacademy.com', '$2b$10$1iYXOSoTuBmdG7NLN7BlCeGnTe2ix9kRd2dKGZA3vba/eJRtK5XfS', true, false, null, '2025-08-31 12:54:10', '2025-08-31 18:33:28'],
+      [15, 'rami', 'rami@devopsacademy.com', '$2b$10$wFL/VmhTDD6WKVrlF.V8R.tVkbUqQaTUmZvxaRPR9DsTGVffJXqfS', true, false, null, '2025-09-06 20:32:19', '2025-09-06 21:39:48']
     ];
 
     for (const user of users) {

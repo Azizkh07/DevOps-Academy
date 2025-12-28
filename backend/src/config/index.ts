@@ -18,7 +18,7 @@ export const config = {
     maxFileSize: parseInt(process.env.MAX_FILE_SIZE || '5120') * 1024 * 1024, // 5120MB = 5GB
   },
   admin: {
-    defaultEmail: process.env.DEFAULT_ADMIN_EMAIL || 'admin@cliniquejuriste.com',
+    defaultEmail: process.env.DEFAULT_ADMIN_EMAIL || 'admin@devopsacademy.com',
     defaultPassword: process.env.DEFAULT_ADMIN_PASSWORD || 'admin123',
   }
 };

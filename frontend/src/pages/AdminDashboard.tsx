@@ -128,7 +128,7 @@ const AdminDashboard: React.FC = () => {
   const generateEmailFromName = (name: string) => {
     const base = name.toLowerCase().trim().replace(/\s+/g, '.').replace(/[^a-z0-9.]/g, '');
     const suffix = Math.floor(100 + Math.random() * 900);
-    return `${base}.${suffix}@cliniquejuristes.com`;
+    return `${base}.${suffix}@devopsacademy.com`;
   };
   const generatePassword = () => Math.random().toString(36).slice(-8) + 'A!';
 
@@ -257,13 +257,13 @@ const AdminDashboard: React.FC = () => {
         <div className="admin-header-content">
           <div className="admin-logo-section">
             <img 
-              src="/images/logo.png" 
-              alt="Clinique Juriste" 
+              src="/assets/devopslogo.png" 
+              alt="DevOps Academy" 
               className="admin-logo"
             />
             <div className="admin-title-section">
               <h1>Administration</h1>
-              <p>Clinique des Juristes</p>
+              <p>DevOps Academy</p>
             </div>
           </div>
 

@@ -12,7 +12,7 @@ console.log('🎬 FIXED Videos API loaded for Medsaidabidi02 - 2025-09-09 17:15:
 // Simple auth bypass for development
 const simpleAuth = (req: any, res: any, next: any) => {
   console.log('🔓 Using simple auth bypass for videos - Medsaidabidi02');
-  req.user = { id: 1, name: 'Medsaidabidi02', email: 'admin@cliniquejuriste.com', is_admin: true };
+  req.user = { id: 1, name: 'Medsaidabidi02', email: 'admin@devopsacademy.com', is_admin: true };
   next();
 };
 

@@ -20,7 +20,7 @@ const ContactPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Simply show a message that the service is not available
-    setError(t('contact.service_unavailable', 'Contact form is currently unavailable. Please contact us directly at cliniquedesjuristes@gmail.com'));
+    setError(t('contact.service_unavailable', 'Contact form is currently unavailable. Please contact us directly at contact@devopsacademy.com'));
   };
 
   const handleChange = (field: keyof ContactForm, value: string) => {
@@ -122,7 +122,7 @@ const ContactPage: React.FC = () => {
                     <div className="contact-method-info mobile-method-info">
                       <h3 className="mobile-method-title">{t('contact.method_email.title', 'Email')}</h3>
                       <p className="mobile-method-desc">{t('contact.method_email.desc', 'Send us a message')}</p>
-                      <div className="contact-detail mobile-contact-detail">cliniquedesjuristes@gmail.com</div>
+                      <div className="contact-detail mobile-contact-detail">contact@devopsacademy.com</div>
                     </div>
                   </div>
                   <div className="contact-method-glow" />

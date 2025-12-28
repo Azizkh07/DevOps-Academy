@@ -14,7 +14,7 @@ const generateHash = async () => {
     console.log('🧪 Verification Test:', test);
     
     console.log('\n📋 SQL COMMAND TO RUN:');
-    console.log(`UPDATE users SET password = '${hash}' WHERE email = 'admin@cliniquejuriste.com';`);
+    console.log(`UPDATE users SET password = '${hash}' WHERE email = 'admin@devopsacademy.com';`);
     
   } catch (error) {
     console.error('❌ Error:', error);

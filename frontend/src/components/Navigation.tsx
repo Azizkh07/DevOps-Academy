@@ -44,10 +44,10 @@ const Navigation: React.FC = () => {
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
               <div className="w-16 h-16 bg-white rounded-full p-2 shadow-lg transform group-hover:scale-110 transition-all duration-500 group-hover:rotate-3">
-                {/* Simple SVG Logo inline */}
+                {/* DevOps Academy Logo */}
                 <img 
-  src="/images/logo.png" 
-  alt="Clinique des Juristes"
+  src="/assets/devposlogo.png" 
+  alt="DevOps Academy"
   className="w-full h-full object-contain"
 />
                 {/* Glow Effect */}
@@ -59,15 +59,15 @@ const Navigation: React.FC = () => {
             <div className="hidden md:block">
               <div className={`text-2xl font-bold transition-all duration-500 ${
                 scrolled 
-                  ? 'bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 bg-clip-text text-transparent' 
-                  : 'text-white group-hover:text-yellow-300'
+                  ? 'bg-gradient-to-r from-blue-600 via-cyan-500 to-green-500 bg-clip-text text-transparent' 
+                  : 'text-white group-hover:bg-gradient-to-r group-hover:from-blue-300 group-hover:to-green-300 group-hover:bg-clip-text group-hover:text-transparent'
               }`}>
-                Clinique des Juristes
+                DevOps Academy
               </div>
               <div className={`text-sm font-medium italic transition-colors ${
-                scrolled ? 'text-gray-500' : 'text-blue-200'
+                scrolled ? 'text-gray-500' : 'text-cyan-200'
               }`}>
-                Excellence Juridique & Formation
+                Master Modern DevOps Practices
               </div>
             </div>
           </Link>

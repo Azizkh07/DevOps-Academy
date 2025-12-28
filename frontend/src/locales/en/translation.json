@@ -1,6 +1,6 @@
 {
-  "site_title": "Clinique des Juristes",
-  "logo_alt": "Clinique des Juristes Logo",
+  "site_title": "DevOps Academy",
+  "logo_alt": "DevOps Academy Logo",
   "language_switcher": "Language",
   "nav": {
     "home": "Home",
@@ -20,7 +20,7 @@
     "login": {
       "welcome_line1": "Welcome",
       "welcome_line2": "back",
-      "subtitle": "Sign in to access your courses and legal resources",
+      "subtitle": "Sign in to access your DevOps courses and resources",
       "email_label": "Email address",
       "email_placeholder": "your.email@example.com",
       "password_label": "Password",
@@ -43,34 +43,34 @@
   },
   "hero": {
     "section_label": "Hero",
-    "badge_icon": "⚖️",
-    "badge_text": "Premium Legal Education",
-    "title_part1": "Legal",
-    "title_highlight": "Education",
-    "title_part3": "Modern,",
-    "title_accent": "At Your Fingertips",
-    "title_aria": "Modern legal education at your fingertips",
-    "description": "Clinique des Juristes - All legal disciplines. Modern expert-led courses to help you succeed.",
-    "image_alt": "Graduate"
+    "badge_icon": "🚀",
+    "badge_text": "Premium DevOps Education",
+    "title_part1": "Master",
+    "title_highlight": "DevOps",
+    "title_part3": "Practices,",
+    "title_accent": "Transform Your Career",
+    "title_aria": "Master DevOps practices and transform your career",
+    "description": "DevOps Academy - Learn CI/CD, Cloud Computing, Infrastructure as Code, and modern DevOps practices from industry experts.",
+    "image_alt": "DevOps Professional"
   },
   "buttons": {
     "cta_more": "Learn more",
     "contact_us": "Contact us"
   },
   "why": {
-    "title": "Why choose Clinique des Juristes"
+    "title": "Why choose DevOps Academy"
   },
   "features": {
-    "title1": "Structured, clear content",
-    "desc1": "Teaching modules organized by legal experts",
+    "title1": "Hands-on Learning",
+    "desc1": "Real-world projects and labs organized by DevOps experts",
     "title2": "Learn at your own pace",
     "desc2": "Unlimited access, courses available 24/7",
-    "title3": "Exam-focused & success-driven",
-    "desc3": "Intensive prep for written and oral exams"
+    "title3": "Career-focused & industry-aligned",
+    "desc3": "Practical training for DevOps certifications and job readiness"
   },
   "courses": {
     "title": "Our Courses",
-    "subtitle": "Significantly improve your skills with our up-to-date instructor-led courses.",
+    "subtitle": "Significantly improve your DevOps skills with our up-to-date instructor-led courses.",
     "page_title": "Our Courses",
     "loading": "Loading courses...",
     "error_title": "Loading error",
@@ -99,7 +99,7 @@
   },
   "articles": {
     "title": "Latest articles",
-    "subtitle": "Discover our tips, legal news and learning resources.",
+    "subtitle": "Discover DevOps tips, industry news and learning resources.",
     "empty_title": "Our articles are coming soon!",
     "untitled": "Article",
     "excerpt_placeholder": "Article excerpt will appear here.",
@@ -107,13 +107,13 @@
   },
   "blog": {
     "hero_section": "Blog",
-    "hero_badge": "News & Legal Advice",
+    "hero_badge": "DevOps News & Best Practices",
     "hero_title_prefix": "Latest",
     "hero_title_highlight": "Articles",
-    "hero_description": "Discover expert tips, legal news and learning resources to stay up-to-date with the latest legal developments.",
+    "hero_description": "Discover expert tips, DevOps news and learning resources to stay up-to-date with the latest industry developments.",
     "read_more": "Read more",
     "unavailable": "Article unavailable",
-    "empty_text": "Our articles are coming soon! Check back later for legal content.",
+    "empty_text": "Our articles are coming soon! Check back later for DevOps content.",
     "error_loading": "Failed to load blog posts. Please try again later.",
     "detail_invalid_url": "Invalid blog URL",
     "error_unauthorized": "Unauthorized (401) — blog API requires authentication. Check token/session.",
@@ -123,11 +123,11 @@
     "detail_unavailable_message": "Article not available",
     "back_to_list": "Back to articles",
     "author_alt": "Author",
-    "author_default": "Clinique des Juristes"
+    "author_default": "DevOps Academy"
   },
   "contact": {
     "hero_title": "Contact Us",
-    "hero_description": "Our team is here to support your legal learning journey. Don't hesitate to ask us anything.",
+    "hero_description": "Our team is here to support your DevOps learning journey. Don't hesitate to ask us anything.",
     "info_title": "Contact information",
     "method_email": {
       "title": "Email",

@@ -8,7 +8,7 @@ console.log('📚 FIXED Courses API loaded for Azizkh07 - 2025-08-20 13:40:09');
 // Simple fallback auth middleware
 const simpleAuth = (req: any, res: any, next: any) => {
   console.log('🔓 Using simple auth bypass for Azizkh07');
-  req.user = { id: 1, name: 'Azizkh07', email: 'admin@cliniquejuriste.com', is_admin: true };
+  req.user = { id: 1, name: 'Azizkh07', email: 'admin@devopsacademy.com', is_admin: true };
   next();
 };
 
