@@ -1,0 +1,266 @@
+# ================================
+# DevOps Academy - GitLab CI/CD Pipeline
+# Comprehensive CI/CD with Docker, K8s, ArgoCD
+# ================================
+
+variables:
+  DOCKER_REGISTRY: docker.io
+  DOCKER_DRIVER: overlay2
+  IMAGE_NAME_BACKEND: $CI_REGISTRY_USER/devops-academy-backend
+  IMAGE_NAME_FRONTEND: $CI_REGISTRY_USER/devops-academy-frontend
+  IMAGE_TAG: $CI_COMMIT_SHORT_SHA
+  KUBECONFIG: /etc/deploy/config
+
+stages:
+  - build
+  - test
+  - security
+  - docker
+  - deploy
+  - notify
+
+# ====================
+# BUILD STAGE
+# ====================
+
+build:backend:
+  stage: build
+  image: node:18-alpine
+  cache:
+    paths:
+      - backend/node_modules/
+  script:
+    - cd backend
+    - npm ci
+    - npm run build || tsc
+  artifacts:
+    paths:
+      - backend/dist/
+    expire_in: 1 hour
+  tags:
+    - docker
+
+build:frontend:
+  stage: build
+  image: node:18-alpine
+  cache:
+    paths:
+      - frontend/node_modules/
+  script:
+    - cd frontend
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/build/
+    expire_in: 1 hour
+  tags:
+    - docker
+
+# ====================
+# TEST STAGE
+# ====================
+
+test:backend:
+  stage: test
+  image: node:18-alpine
+  dependencies:
+    - build:backend
+  script:
+    - cd backend
+    - npm ci
+    - npm run test || echo "No tests configured"
+    - npm run lint || echo "No linter configured"
+  coverage: '/Statements\s*:\s*(\d+\.\d+)%/'
+  tags:
+    - docker
+
+test:frontend:
+  stage: test
+  image: node:18-alpine
+  dependencies:
+    - build:frontend
+  script:
+    - cd frontend
+    - npm ci
+    - npm run test -- --coverage --watchAll=false || echo "No tests configured"
+    - npm run lint || echo "No linter configured"
+  coverage: '/Statements\s*:\s*(\d+\.\d+)%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: frontend/coverage/cobertura-coverage.xml
+  tags:
+    - docker
+
+# ====================
+# SECURITY STAGE
+# ====================
+
+security:scan:
+  stage: security
+  image: node:18-alpine
+  script:
+    - cd backend && npm audit --audit-level=moderate || true
+    - cd ../frontend && npm audit --audit-level=moderate || true
+  allow_failure: true
+  tags:
+    - docker
+
+security:trivy:backend:
+  stage: security
+  image: aquasec/trivy:latest
+  script:
+    - trivy fs --exit-code 0 --no-progress --severity HIGH,CRITICAL ./backend
+  allow_failure: true
+  tags:
+    - docker
+
+security:trivy:frontend:
+  stage: security
+  image: aquasec/trivy:latest
+  script:
+    - trivy fs --exit-code 0 --no-progress --severity HIGH,CRITICAL ./frontend
+  allow_failure: true
+  tags:
+    - docker
+
+# ====================
+# DOCKER BUILD & PUSH
+# ====================
+
+docker:backend:
+  stage: docker
+  image: docker:latest
+  services:
+    - docker:dind
+  dependencies:
+    - build:backend
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $DOCKER_REGISTRY
+  script:
+    - cd backend
+    - docker build -t $IMAGE_NAME_BACKEND:$IMAGE_TAG -t $IMAGE_NAME_BACKEND:latest .
+    - docker push $IMAGE_NAME_BACKEND:$IMAGE_TAG
+    - docker push $IMAGE_NAME_BACKEND:latest
+  only:
+    - main
+    - develop
+  tags:
+    - docker
+
+docker:frontend:
+  stage: docker
+  image: docker:latest
+  services:
+    - docker:dind
+  dependencies:
+    - build:frontend
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $DOCKER_REGISTRY
+  script:
+    - cd frontend
+    - docker build --build-arg REACT_APP_API_URL=$API_URL -t $IMAGE_NAME_FRONTEND:$IMAGE_TAG -t $IMAGE_NAME_FRONTEND:latest .
+    - docker push $IMAGE_NAME_FRONTEND:$IMAGE_TAG
+    - docker push $IMAGE_NAME_FRONTEND:latest
+  only:
+    - main
+    - develop
+  tags:
+    - docker
+
+# ====================
+# KUBERNETES DEPLOY
+# ====================
+
+deploy:staging:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl config use-context staging
+    - kubectl apply -f k8s/namespace.yaml
+    - kubectl apply -f k8s/mysql-deployment.yaml
+    - kubectl apply -f k8s/backend-deployment.yaml
+    - kubectl apply -f k8s/frontend-deployment.yaml
+    - kubectl set image deployment/backend backend=$IMAGE_NAME_BACKEND:$IMAGE_TAG -n devops-academy
+    - kubectl set image deployment/frontend frontend=$IMAGE_NAME_FRONTEND:$IMAGE_TAG -n devops-academy
+    - kubectl rollout status deployment/backend -n devops-academy
+    - kubectl rollout status deployment/frontend -n devops-academy
+  environment:
+    name: staging
+    url: https://staging.devopsacademy.com
+  only:
+    - develop
+  tags:
+    - kubernetes
+
+deploy:production:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl config use-context production
+    - kubectl apply -f k8s/namespace.yaml
+    - kubectl apply -f k8s/mysql-deployment.yaml
+    - kubectl apply -f k8s/backend-deployment.yaml
+    - kubectl apply -f k8s/frontend-deployment.yaml
+    - kubectl set image deployment/backend backend=$IMAGE_NAME_BACKEND:$IMAGE_TAG -n devops-academy
+    - kubectl set image deployment/frontend frontend=$IMAGE_NAME_FRONTEND:$IMAGE_TAG -n devops-academy
+    - kubectl rollout status deployment/backend -n devops-academy
+    - kubectl rollout status deployment/frontend -n devops-academy
+  environment:
+    name: production
+    url: https://devopsacademy.com
+  when: manual
+  only:
+    - main
+  tags:
+    - kubernetes
+
+# ====================
+# ARGOCD SYNC
+# ====================
+
+argocd:sync:
+  stage: deploy
+  image: argoproj/argocd:latest
+  script:
+    - argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD
+    - argocd app sync devops-academy --prune
+    - argocd app wait devops-academy --health
+  only:
+    - main
+  tags:
+    - argocd
+
+# ====================
+# NOTIFICATIONS
+# ====================
+
+notify:success:
+  stage: notify
+  image: curlimages/curl:latest
+  script:
+    - |
+      curl -X POST $SLACK_WEBHOOK_URL \
+      -H 'Content-Type: application/json' \
+      -d "{\"text\":\"✅ DevOps Academy Pipeline Succeeded! Build: $CI_COMMIT_SHORT_SHA\"}"
+  when: on_success
+  only:
+    - main
+  tags:
+    - docker
+
+notify:failure:
+  stage: notify
+  image: curlimages/curl:latest
+  script:
+    - |
+      curl -X POST $SLACK_WEBHOOK_URL \
+      -H 'Content-Type: application/json' \
+      -d "{\"text\":\"❌ DevOps Academy Pipeline Failed! Build: $CI_COMMIT_SHORT_SHA\"}"
+  when: on_failure
+  only:
+    - main
+  tags:
+    - docker

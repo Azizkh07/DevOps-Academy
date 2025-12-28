@@ -1,0 +1,187 @@
+# ================================
+# DevOps Academy - Backend Deployment
+# Node.js API with Auto-scaling
+# ================================
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-secret
+  namespace: devops-academy
+type: Opaque
+stringData:
+  JWT_SECRET: devops-academy-super-secret-key-2025-change-in-production
+  VIDEO_SECRET: video-security-key-2025-change-in-production
+  DEFAULT_ADMIN_PASSWORD: admin123
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: devops-academy
+data:
+  NODE_ENV: "production"
+  PORT: "5001"
+  FRONTEND_URL: "http://frontend"
+  API_URL: "http://backend:5001"
+  MAX_FILE_SIZE: "5120"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: devops-academy
+  labels:
+    app: backend
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+        version: v1
+    spec:
+      containers:
+      - name: backend
+        image: azizkh07/devops-academy-backend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5001
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: NODE_ENV
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: PORT
+        - name: DATABASE_URL
+          value: "mysql://devops_user:DevOps2024!Pass@mysql:3306/devops_academy_db"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: JWT_SECRET
+        - name: JWT_EXPIRES_IN
+          value: "24h"
+        - name: VIDEO_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: VIDEO_SECRET
+        - name: DEFAULT_ADMIN_EMAIL
+          value: "admin@devopsacademy.com"
+        - name: DEFAULT_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: DEFAULT_ADMIN_PASSWORD
+        - name: FRONTEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: FRONTEND_URL
+        - name: API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: backend-config
+              key: API_URL
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5001
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        volumeMounts:
+        - name: uploads
+          mountPath: /app/uploads
+      volumes:
+      - name: uploads
+        persistentVolumeClaim:
+          claimName: backend-uploads-pvc
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backend-uploads-pvc
+  namespace: devops-academy
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: standard
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: devops-academy
+  labels:
+    app: backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5001
+    targetPort: 5001
+    protocol: TCP
+    name: http
+  selector:
+    app: backend
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-hpa
+  namespace: devops-academy
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

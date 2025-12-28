@@ -1,0 +1,29 @@
+# Example terraform.tfvars
+# Copy this file to terraform.tfvars and update with your values
+
+aws_region  = "us-east-1"
+environment = "production"
+
+# VPC Configuration
+vpc_cidr             = "10.0.0.0/16"
+public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+private_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24", "10.0.13.0/24"]
+
+# EKS Configuration
+eks_cluster_version = "1.28"
+
+eks_node_groups = {
+  general = {
+    desired_size   = 3
+    min_size       = 2
+    max_size       = 10
+    instance_types = ["t3.medium"]
+    capacity_type  = "ON_DEMAND"
+  }
+}
+
+# RDS Configuration
+database_name     = "devopsacademy"
+database_username = "admin"
+rds_instance_class    = "db.t3.micro"
+rds_allocated_storage = 20

@@ -1,0 +1,54 @@
+# DevOps Academy Backend - Docker Ignore
+
+# Node modules
+node_modules
+npm-debug.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build files
+dist
+build
+*.log
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Tests
+coverage
+.nyc_output
+test
+tests
+*.test.ts
+*.spec.ts
+
+# Documentation
+README.md
+docs
+
+# CI/CD
+.github
+.gitlab-ci.yml
+Jenkinsfile
+
+# Uploads (will be volume mounted)
+uploads/*
+!uploads/.gitkeep
+
+# Database
+*.sql
+migrations/*.sql
+
+# OS
+.DS_Store
+Thumbs.db

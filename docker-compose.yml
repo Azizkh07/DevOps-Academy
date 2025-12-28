@@ -1,0 +1,94 @@
+version: '3.8'
+
+# ================================
+# DevOps Academy - Docker Compose
+# Full stack with MySQL, Backend, Frontend
+# ================================
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:5.7
+    container_name: devops-academy-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-ROOT}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-devops_academy_db}
+      MYSQL_USER: ${MYSQL_USER:-devops_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-DevOps2024!Pass}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - devops-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-ROOT}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: devops-academy-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 5001
+      DATABASE_URL: mysql://${MYSQL_USER:-devops_user}:${MYSQL_PASSWORD:-DevOps2024!Pass}@mysql:3306/${MYSQL_DATABASE:-devops_academy_db}
+      JWT_SECRET: ${JWT_SECRET:-devops-academy-super-secret-key-2025}
+      JWT_EXPIRES_IN: 24h
+      VIDEO_SECRET: ${VIDEO_SECRET:-video-security-key-2025}
+      DEFAULT_ADMIN_EMAIL: admin@devopsacademy.com
+      DEFAULT_ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      FRONTEND_URL: http://localhost:3000
+      API_URL: http://localhost:5001
+    ports:
+      - "5001:5001"
+    volumes:
+      - backend_uploads:/app/uploads
+    networks:
+      - devops-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5001/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend React App
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: http://localhost:5001
+    container_name: devops-academy-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    networks:
+      - devops-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mysql_data:
+    driver: local
+  backend_uploads:
+    driver: local
+
+networks:
+  devops-network:
+    driver: bridge

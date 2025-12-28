@@ -1,0 +1,12 @@
+# ================================
+# DevOps Academy - Kubernetes Namespace
+# ================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: devops-academy
+  labels:
+    name: devops-academy
+    environment: production
+    managed-by: argocd

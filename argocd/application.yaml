@@ -1,0 +1,49 @@
+# ================================
+# DevOps Academy - ArgoCD Application
+# GitOps Deployment Configuration
+# ================================
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devops-academy
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  
+  # Source repository
+  source:
+    repoURL: https://github.com/Azizkh07/DevOps-Academy.git
+    targetRevision: main
+    path: k8s
+  
+  # Destination cluster and namespace
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: devops-academy
+  
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true        # Automatically delete resources removed from Git
+      selfHeal: true     # Automatically sync when cluster state differs
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  
+  # Health assessment
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas

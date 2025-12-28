@@ -1,0 +1,44 @@
+# ================================
+# DevOps Academy - ArgoCD Project
+# Isolated Application Project
+# ================================
+
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: devops-academy-project
+  namespace: argocd
+spec:
+  description: DevOps Academy Learning Platform
+  
+  # Source repositories
+  sourceRepos:
+    - https://github.com/Azizkh07/DevOps-Academy.git
+  
+  # Allowed destinations
+  destinations:
+    - namespace: devops-academy
+      server: https://kubernetes.default.svc
+    - namespace: devops-academy-staging
+      server: https://kubernetes.default.svc
+  
+  # Cluster resource whitelist
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+    - group: 'rbac.authorization.k8s.io'
+      kind: ClusterRole
+    - group: 'rbac.authorization.k8s.io'
+      kind: ClusterRoleBinding
+  
+  # Namespace resource whitelist
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  
+  # Deny resources (for security)
+  namespaceResourceBlacklist:
+    - group: ''
+      kind: ResourceQuota
+    - group: ''
+      kind: LimitRange
