@@ -1,8 +1,7 @@
-version: '3.8'
-
 # ================================
 # DevOps Academy - Docker Compose
 # Full stack with MySQL, Backend, Frontend
+# ================================
 # ================================
 
 services:
@@ -17,7 +16,7 @@ services:
       MYSQL_USER: ${MYSQL_USER:-devops_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-DevOps2024!Pass}
     ports:
-      - "3307:3306"
+      - "3308:3306"  # Changed from 3307 to 3308 (port 3307 was in use)
     volumes:
       - mysql_data:/var/lib/mysql
       - ./backend/migrations:/docker-entrypoint-initdb.d
@@ -40,24 +39,24 @@ services:
       mysql:
         condition: service_healthy
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       PORT: 5001
-      DATABASE_URL: mysql://${MYSQL_USER:-devops_user}:${MYSQL_PASSWORD:-DevOps2024!Pass}@mysql:3306/${MYSQL_DATABASE:-devops_academy_db}
-      JWT_SECRET: ${JWT_SECRET:-devops-academy-super-secret-key-2025}
+      DATABASE_URL: mysql://legal_app_user:ROOT@mysql:3306/legal_education_mysql5
+      JWT_SECRET: legal-education-platform-super-secret-key-medsaidabidi02-2025-mysql5-version
       JWT_EXPIRES_IN: 24h
       VIDEO_SECRET: ${VIDEO_SECRET:-video-security-key-2025}
       DEFAULT_ADMIN_EMAIL: admin@devopsacademy.com
       DEFAULT_ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
       FRONTEND_URL: http://localhost:3000
-      API_URL: http://localhost:5001
+      API_URL: http://localhost:5002
     ports:
-      - "5001:5001"
+      - "5002:5001"  # Changed from 5001:5001 to 5002:5001 (port 5001 was in use)
     volumes:
       - backend_uploads:/app/uploads
     networks:
       - devops-network
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5001/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5001/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -68,7 +67,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        REACT_APP_API_URL: http://localhost:5001
+        REACT_APP_API_URL: http://localhost:5002
     container_name: devops-academy-frontend
     restart: unless-stopped
     depends_on:

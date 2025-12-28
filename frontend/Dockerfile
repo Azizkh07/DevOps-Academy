@@ -14,15 +14,15 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci && \
+# Install dependencies with legacy peer deps to handle version conflicts
+RUN npm ci --legacy-peer-deps && \
     npm cache clean --force
 
 # Copy source code
 COPY . .
 
-# Build argument for API URL
-ARG REACT_APP_API_URL=http://localhost:5001
+# Build argument for API URL - Changed to port 5002
+ARG REACT_APP_API_URL=http://localhost:5002
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
 # Build React app
@@ -45,9 +45,7 @@ COPY --from=builder /app/public/assets /usr/share/nginx/html/assets
 COPY --from=builder /app/public/logoo.png /usr/share/nginx/html/
 COPY --from=builder /app/public/logoo.ico /usr/share/nginx/html/
 
-# Create nginx user
-RUN addgroup -g 101 -S nginx && \
-    adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx
+# Note: nginx user already exists in nginx:alpine base image
 
 # Expose port
 EXPOSE 80

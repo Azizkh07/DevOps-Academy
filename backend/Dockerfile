@@ -15,16 +15,15 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production && \
+# Install ALL dependencies (including devDependencies for build)
+RUN npm ci && \
     npm cache clean --force
 
 # Copy source code
 COPY . .
 
 # Build TypeScript
-RUN npm install -g typescript && \
-    npm run build || tsc
+RUN npm run build
 
 # Stage 2: Production Stage
 FROM node:18-alpine

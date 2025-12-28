@@ -25,9 +25,9 @@ metadata:
 type: Opaque
 stringData:
   MYSQL_ROOT_PASSWORD: ROOT
-  MYSQL_DATABASE: devops_academy_db
-  MYSQL_USER: devops_user
-  MYSQL_PASSWORD: DevOps2024!Pass
+  MYSQL_DATABASE: legal_education_mysql5
+  MYSQL_USER: legal_app_user
+  MYSQL_PASSWORD: ROOT
 
 ---
 apiVersion: v1

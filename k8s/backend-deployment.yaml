@@ -10,7 +10,7 @@ metadata:
   namespace: devops-academy
 type: Opaque
 stringData:
-  JWT_SECRET: devops-academy-super-secret-key-2025-change-in-production
+  JWT_SECRET: legal-education-platform-super-secret-key-medsaidabidi02-2025-mysql5-version
   VIDEO_SECRET: video-security-key-2025-change-in-production
   DEFAULT_ADMIN_PASSWORD: admin123
 
@@ -66,7 +66,7 @@ spec:
               name: backend-config
               key: PORT
         - name: DATABASE_URL
-          value: "mysql://devops_user:DevOps2024!Pass@mysql:3306/devops_academy_db"
+          value: "mysql://legal_app_user:ROOT@mysql:3306/legal_education_mysql5"
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
