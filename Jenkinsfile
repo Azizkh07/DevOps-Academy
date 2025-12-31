@@ -4,8 +4,8 @@ pipeline {
     environment {
         DOCKER_REGISTRY = 'docker.io'
         DOCKER_CREDENTIALS = credentials('dockerhub-credentials')
-        IMAGE_NAME_BACKEND = 'azizkh07/devops-academy-backend'
-        IMAGE_NAME_FRONTEND = 'azizkh07/devops-academy-frontend'
+        IMAGE_NAME_BACKEND = 'medazizkhannoussi/devops-academy-backend'
+        IMAGE_NAME_FRONTEND = 'medazizkhannoussi/devops-academy-frontend'
         IMAGE_TAG = "${BUILD_NUMBER}"
         SONAR_TOKEN = credentials('sonar-token')
     }
