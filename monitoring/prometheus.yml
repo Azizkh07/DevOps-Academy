@@ -10,16 +10,9 @@ global:
     cluster: 'devops-academy'
     environment: 'production'
 
-# Alertmanager configuration
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-            - alertmanager:9093
-
 # Load rules once and periodically evaluate them
 rule_files:
-  - /etc/prometheus/alerts/*.yml
+  - /etc/prometheus/alerts.yml
 
 # Scrape configurations
 scrape_configs:
@@ -28,25 +21,15 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  # Backend API metrics
-  - job_name: 'backend'
-    kubernetes_sd_configs:
-      - role: pod
-        namespaces:
-          names:
-            - devops-academy
-    relabel_configs:
-      - source_labels: [__meta_kubernetes_pod_label_app]
-        regex: backend
-        action: keep
-      - source_labels: [__meta_kubernetes_pod_name]
-        target_label: pod
-      - source_labels: [__address__]
-        target_label: __address__
-        regex: ([^:]+)(?::\d+)?
-        replacement: ${1}:5001
+  # Node Exporter - System metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
 
-  # Frontend Nginx metrics
+  # cAdvisor - Container metrics
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: ['cadvisor:8080']
   - job_name: 'frontend'
     kubernetes_sd_configs:
       - role: pod
