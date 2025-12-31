@@ -1,0 +1,86 @@
+pipeline {
+    agent any
+    
+    environment {
+        DOCKER_REGISTRY = 'docker.io'
+        DOCKER_CREDENTIALS = credentials('dockerhub-credentials')
+        IMAGE_NAME_BACKEND = 'medazizkhannoussi/devops-academy-backend'
+        IMAGE_NAME_FRONTEND = 'medazizkhannoussi/devops-academy-frontend'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', 
+                    url: 'https://github.com/Azizkh07/DevOps-Academy.git'
+            }
+        }
+        
+        stage('Build Backend Image') {
+            steps {
+                dir('backend') {
+                    script {
+                        sh """
+                            docker build -t ${IMAGE_NAME_BACKEND}:${IMAGE_TAG} .
+                            docker tag ${IMAGE_NAME_BACKEND}:${IMAGE_TAG} ${IMAGE_NAME_BACKEND}:latest
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Build Frontend Image') {
+            steps {
+                dir('frontend') {
+                    script {
+                        sh """
+                            docker build -t ${IMAGE_NAME_FRONTEND}:${IMAGE_TAG} .
+                            docker tag ${IMAGE_NAME_FRONTEND}:${IMAGE_TAG} ${IMAGE_NAME_FRONTEND}:latest
+                        """
+                    }
+                }
+            }
+        }
+        
+        stage('Push Images to Docker Hub') {
+            steps {
+                script {
+                    sh """
+                        echo \$DOCKER_CREDENTIALS_PSW | docker login -u \$DOCKER_CREDENTIALS_USR --password-stdin
+                        docker push ${IMAGE_NAME_BACKEND}:${IMAGE_TAG}
+                        docker push ${IMAGE_NAME_BACKEND}:latest
+                        docker push ${IMAGE_NAME_FRONTEND}:${IMAGE_TAG}
+                        docker push ${IMAGE_NAME_FRONTEND}:latest
+                    """
+                }
+            }
+        }
+        
+        stage('Deploy to Docker Compose') {
+            steps {
+                script {
+                    sh """
+                        cd \$WORKSPACE
+                        docker compose down || true
+                        docker compose up -d
+                    """
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo '✅ Pipeline completed successfully!'
+            echo "Backend image: ${IMAGE_NAME_BACKEND}:${IMAGE_TAG}"
+            echo "Frontend image: ${IMAGE_NAME_FRONTEND}:${IMAGE_TAG}"
+        }
+        failure {
+            echo '❌ Pipeline failed!'
+        }
+        always {
+            sh 'docker logout'
+        }
+    }
+}
