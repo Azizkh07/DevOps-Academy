@@ -16,3 +16,9 @@ build/
 # OS/system files
 .DS_Store
 Thumbs.db
+
+# Secrets
+.env
+.env.example
+*.env
+
