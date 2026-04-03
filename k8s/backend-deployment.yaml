@@ -3,17 +3,9 @@
 # Node.js API with Auto-scaling
 # ================================
 
-apiVersion: v1
-kind: Secret
-metadata:
-  name: backend-secret
-  namespace: devops-academy
-type: Opaque
-stringData:
-  JWT_SECRET: legal-education-platform-super-secret-key-medsaidabidi02-2025-mysql5-version
-  VIDEO_SECRET: video-security-key-2025-change-in-production
-  DEFAULT_ADMIN_PASSWORD: admin123
-
+---
+# Secret is defined in secrets.yaml (gitignored).
+# Apply secrets first: kubectl apply -f k8s/secrets.yaml
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -66,7 +58,10 @@ spec:
               name: backend-config
               key: PORT
         - name: DATABASE_URL
-          value: "mysql://legal_app_user:ROOT@mysql:3306/legal_education_mysql5"
+          valueFrom:
+            secretKeyRef:
+              name: backend-secret
+              key: DATABASE_URL
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:

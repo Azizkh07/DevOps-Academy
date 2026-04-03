@@ -17,18 +17,8 @@ spec:
   storageClassName: standard
 
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mysql-secret
-  namespace: devops-academy
-type: Opaque
-stringData:
-  MYSQL_ROOT_PASSWORD: ROOT
-  MYSQL_DATABASE: legal_education_mysql5
-  MYSQL_USER: legal_app_user
-  MYSQL_PASSWORD: ROOT
-
+# Secret is defined in secrets.yaml (gitignored).
+# Apply secrets first: kubectl apply -f k8s/secrets.yaml
 ---
 apiVersion: v1
 kind: ConfigMap

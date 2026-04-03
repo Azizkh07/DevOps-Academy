@@ -1,24 +1,43 @@
 backend.zip
-# Environment files
+# Secrets — never commit real env files
 .env
-.env.*
+.env.local
 .env.production
-!.env.example   # keep an example file (optional)
+.env.development
+.env.staging
+# But keep example files safe to commit
+!.env.example
+!**/.env.example
 
-# Dependencies
+# Dependencies — never commit these
 node_modules/
+**/node_modules/
+
+# Build output
 dist/
 build/
+**/dist/
+**/build/
 
 # Logs
 *.log
+**/npm-debug.log*
 
 # OS/system files
 .DS_Store
 Thumbs.db
 
-# Secrets
-.env
-.env.example
-*.env
+# Kubernetes secrets (NEVER commit real secrets)
+k8s/secrets.yaml
 
+# Database backups (sensitive)
+*.sql
+!backend/migrations/*.sql
+
+# Terraform state (sensitive)
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/.terraform/
+terraform-azure/*.tfstate
+terraform-azure/*.tfstate.backup
+terraform-azure/.terraform/

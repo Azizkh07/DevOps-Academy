@@ -41,8 +41,8 @@ services:
     environment:
       NODE_ENV: development
       PORT: 5001
-      DATABASE_URL: mysql://legal_app_user:ROOT@mysql:3306/legal_education_mysql5
-      JWT_SECRET: legal-education-platform-super-secret-key-medsaidabidi02-2025-mysql5-version
+      DATABASE_URL: ${DATABASE_URL:-mysql://legal_app_user:ROOT@mysql:3306/legal_education_mysql5}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set in .env}
       JWT_EXPIRES_IN: 24h
       VIDEO_SECRET: ${VIDEO_SECRET:-video-security-key-2025}
       DEFAULT_ADMIN_EMAIL: admin@devopsacademy.com
